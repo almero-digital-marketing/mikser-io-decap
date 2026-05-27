@@ -2,7 +2,15 @@
 
 Mount [Decap CMS](https://decapcms.org/) inside the [mikser-io](https://github.com/almero-digital-marketing/mikser-io) Express server. One process, one port, one command — the admin runs alongside mikser's watcher so edits are picked up and rebuilt on save.
 
-This plugin is a thin host. You write your own `decap.yml`; the plugin serves the admin UI, mounts Decap's local-fs/git proxy backend, and (optionally) copies the admin bundle into the build output for static deployment.
+## Why an in-process CMS
+
+Content sites almost always need an editorial UI — non-developer authors won't (and shouldn't) edit `.md` files in a code editor. The usual approach is to bolt a headless CMS (Sanity, Contentful, Strapi) onto the stack, which adds a vendor, a database, a sync problem, and a license cost per editor seat.
+
+Decap is mature, file-based, and ships as a static SPA — exactly the right shape for a file-based content engine. This plugin mounts it inside the same Express server mikser already runs, so the dev story is one command (`mikser --server`) and the production deploy is just static files. Editors get a familiar CMS UI; the content stays as plain `.md` and `.yml` on disk, version-controllable, portable, and free of any database dependency.
+
+## The plugin's job
+
+A thin host. You write your own `decap.yml`; the plugin serves the admin UI, mounts Decap's local-fs/git proxy backend, and (optionally) copies the admin bundle into the build output for static deployment.
 
 ## Install
 
