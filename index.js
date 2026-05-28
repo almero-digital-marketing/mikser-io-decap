@@ -36,11 +36,18 @@ export default ({ runtime, onLoaded, onAfterRender, useLogger }) => {
     onLoaded(async () => {
         const logger = useLogger()
 
+        // No app → no live admin route. This is the normal case for a
+        // one-shot production build (`mikser` without --server): the
+        // admin still gets baked into out/ by onAfterRender below, with
+        // a remote backend (git-gateway / github) doing the writes.
+        // Only the local proxy backend needs a running server.
         if (!runtime.options.app) {
-            throw new Error(
-                'Decap plugin requires runtime.options.app. ' +
-                'Run mikser with --server, or pass app to setup({ app }).'
+            logger.info(
+                'Decap: no server (runtime.options.app) — skipping live admin mount. ' +
+                'Admin will be copied into the build output%s.',
+                copyToOut ? '' : ' (disabled: copyToOut is false)'
             )
+            return
         }
 
         // Resolve the decap-cms standalone bundle path via peerDep.
