@@ -1,6 +1,6 @@
 {
   "name": "mikser-io-decap",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Mount Decap CMS inside the mikser-io express server — single process admin for file-based content",
   "main": "index.js",
   "type": "module",
@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/almero-digital-marketing/mikser-io-decap#readme",
   "peerDependencies": {
-    "mikser-io": "^6.0.0",
+    "mikser-io": "^7.0.0",
     "decap-cms": "^3.0.0"
   },
   "dependencies": {
