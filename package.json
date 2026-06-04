@@ -20,6 +20,6 @@
     "decap-cms": "^3.0.0"
   },
   "dependencies": {
-    "decap-server": "^3.7.0"
+    "decap-server": "^3.8.0"
   }
 }
