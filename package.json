@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/almero-digital-marketing/mikser-io-decap#readme",
   "peerDependencies": {
-    "mikser-io": "^7.0.0",
+    "mikser-io": "^8.0.0",
     "decap-cms": "^3.0.0"
   },
   "dependencies": {
