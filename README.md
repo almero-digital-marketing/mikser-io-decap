@@ -24,16 +24,22 @@ npm install mikser-io-decap decap-cms
 
 ```js
 // mikser.config.js
-export default {
-  plugins: ['documents', 'layouts', 'render-hbs', 'decap'],
+import { documents, layouts, renderHbs } from 'mikser-io'
+import { decap } from 'mikser-io-decap'
 
-  decap: {
-    base: '/admin',           // admin URL path; default '/admin'
-    proxyBase: '/decap',      // backend mount; default '/decap' → POST /decap/api/v1
-    mode: 'fs',               // 'fs' (raw filesystem) or 'git' (commits per edit)
-    configYml: 'decap.yml',   // user's Decap config, relative to working folder
-    copyToOut: true,          // copy admin into out/<base>/ on build; default true
-  },
+export default {
+  plugins: [
+    documents(),
+    layouts(),
+    renderHbs(),
+    decap({
+      base: '/admin',           // admin URL path; default '/admin'
+      proxyBase: '/decap',      // backend mount; default '/decap' → POST /decap/api/v1
+      mode: 'fs',               // 'fs' (raw filesystem) or 'git' (commits per edit)
+      configYml: 'decap.yml',   // user's Decap config, relative to working folder
+      copyToOut: true,          // copy admin into out/<base>/ on build; default true
+    }),
+  ],
 }
 ```
 
