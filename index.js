@@ -6,8 +6,9 @@ import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 const here = path.dirname(fileURLToPath(import.meta.url))
 
-export default ({ runtime, onLoaded, onAfterRender, useLogger }) => {
-    const config = runtime.config.decap ?? {}
+export function decap(options = {}) {
+    return ({ runtime, onLoaded, onAfterRender, useLogger }) => {
+    const config = options
 
     // Where the admin lives in the HTTP space. Default '/admin' to match
     // every Decap CMS tutorial ever written; users can override if they
@@ -153,4 +154,5 @@ export default ({ runtime, onLoaded, onAfterRender, useLogger }) => {
 
         logger.info('Decap admin written: %s', outAdmin)
     })
+    }
 }
