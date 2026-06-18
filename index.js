@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url)
 const here = path.dirname(fileURLToPath(import.meta.url))
 
 export function decap(options = {}) {
-    return ({ runtime, onLoaded, onAfterRender, useLogger }) => {
+    return ({ runtime, onLoaded, onAfterRender, useLogger, registerRoute }) => {
     const config = options
 
     // Where the admin lives in the HTTP space. Default '/admin' to match
@@ -117,8 +117,29 @@ export function decap(options = {}) {
 
         expressApp.use(adminBase, express.static(decapDistPath))
 
-        logger.info('Decap admin mounted: %s (mode=%s, proxy=%s/api/v1, config=%s)',
-            adminBase, mode, proxyBase, configYml)
+        // Both routes are loopback-only — this is a local-editing tool.
+        // The proxy backend (fs/git mode) writes to the working folder
+        // on the client's behalf, so a facade must NEVER expose it; the
+        // admin UI is useless without it, so it's loopback too. Marking
+        // them loopback keeps a facade generator from publishing a
+        // working-folder write endpoint to the internet.
+        registerRoute({
+            path:         proxyBase,
+            plugin:       'decap',
+            reachability: 'loopback',
+            streaming:    false,
+            label:        'Decap backend',
+            displayPath:  `${proxyBase}/api/v1`,
+            detail:       `(mode=${mode})`,
+        })
+        registerRoute({
+            path:         adminBase,
+            plugin:       'decap',
+            reachability: 'loopback',
+            streaming:    false,
+            label:        'Decap admin',
+            detail:       `(mode=${mode}, config=${configYml})`,
+        })
     })
 
     onAfterRender(async () => {
